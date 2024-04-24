@@ -25,6 +25,10 @@ pub trait KeyExtractor: Clone {
     fn key_name(&self, _key: &Self::Key) -> Option<String> {
         None
     }
+
+    fn rate_limit_message(&self, retry_after: u64) -> String {
+        format!("Too Many Requests! Wait for {}s", retry_after)
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

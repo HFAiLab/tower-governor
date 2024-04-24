@@ -111,6 +111,7 @@ where
                     let error_response = self.error_handler()(GovernorError::TooManyRequests {
                         wait_time,
                         headers: Some(headers),
+                        msg: self.key_extractor.rate_limit_message(wait_time),
                     });
 
                     ResponseFuture {
@@ -285,6 +286,7 @@ where
                     let error_response = self.error_handler()(GovernorError::TooManyRequests {
                         wait_time,
                         headers: Some(headers),
+                        msg: self.key_extractor.rate_limit_message(wait_time),
                     });
 
                     ResponseFuture {

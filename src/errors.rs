@@ -9,6 +9,7 @@ pub enum GovernorError {
     TooManyRequests {
         wait_time: u64,
         headers: Option<HeaderMap>,
+        msg: String,
     },
     #[error("Unable to extract key!")]
     UnableToExtractKey,
@@ -27,8 +28,12 @@ impl GovernorError {
         ResB: From<String>,
     {
         match mem::replace(self, Self::UnableToExtractKey) {
-            GovernorError::TooManyRequests { wait_time, headers } => {
-                let response = Response::new(format!("Too Many Requests! Wait for {}s", wait_time));
+            GovernorError::TooManyRequests {
+                wait_time: _,
+                headers,
+                msg,
+            } => {
+                let response = Response::new(msg);
                 let (mut parts, body) = response.into_parts();
                 parts.status = StatusCode::TOO_MANY_REQUESTS;
                 if let Some(headers) = headers {
