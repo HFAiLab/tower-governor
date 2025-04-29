@@ -107,6 +107,7 @@ where
                     }
                     let mut headers = HeaderMap::new();
                     headers.insert("x-ratelimit-after", wait_time.into());
+                    headers.insert("retry-after", wait_time.into());
 
                     let error_response = self.error_handler()(GovernorError::TooManyRequests {
                         wait_time,
@@ -277,6 +278,7 @@ where
 
                     let mut headers = HeaderMap::new();
                     headers.insert("x-ratelimit-after", wait_time.into());
+                    headers.insert("retry-after", wait_time.into());
                     headers.insert(
                         "x-ratelimit-limit",
                         negative.quota().burst_size().get().into(),
